@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serah Terima Kontong Retur SPX - POSIND</title>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--navy:#0F172A;
+--navy2:#1E293B;
+--orange:#FF6A00;
+--bg:#F1F5F9;
+}
+*{box-sizing:border-box;}
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+background:var(--bg);
+}
+.header{
+background:linear-gradient(135deg,var(--navy),var(--navy2));
+color:white;
+padding:15px;
+}
+.header-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+.header img{
+height:45px;
+}
+.header-title{
+text-align:center;
+font-weight:700;
+margin-top:10px;
+font-size:16px;
+}
+.container{
+padding:15px;
+max-width:900px;
+margin:auto;
+}
+.card{
+background:white;
+padding:15px;
+border-radius:16px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+margin-bottom:15px;
+}
+label{font-weight:600;font-size:13px;}
+input{
+width:100%;
+padding:12px;
+margin-top:5px;
+margin-bottom:12px;
+border-radius:12px;
+border:1px solid #ddd;
+}
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+font-weight:600;
+margin-top:8px;
+cursor:pointer;
+}
+.btn-primary{background:var(--navy);color:white;}
+.btn-orange{background:var(--orange);color:white;}
+.btn-danger{background:#e53935;color:white;}
+.btn-success{background:#2ecc71;color:white;}
+.btn-excel{background:#f39c12;color:white;}
+table{
+width:100%;
+border-collapse:collapse;
+font-size:13px;
+}
+th{
+background:var(--navy);
+color:white;
+padding:10px;
+}
+td{
+padding:8px;
+border-bottom:1px solid #eee;
+text-align:center;
+}
+.total-box{
+text-align:center;
+font-weight:700;
+margin-top:10px;
+}
+#notif{
+text-align:center;
+font-weight:600;
+margin-top:10px;
+}
+.success{color:green;}
+.error{color:red;}
+canvas{
+width:100%;
+max-width:300px;
+border:1px solid #ddd;
+border-radius:10px;
+}
+
+/* Hilangkan tombol Flash */
+#btnFlash{
+    display:none;
+}
+
+/* Hilangkan card tanda tangan digital */
+canvas#signature,
+button[onclick="clearSignature()"],
+h4{
+    display:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<div class="header-top">
+</div>
+<div class="header-title">
+SERAH TERIMA KONTONG RETUR<br>
+SPX ➜ POSIND
+</div>
+</div>
+
+<div class="container">
+
+<div class="card">
+<label>Tanggal</label>
+<input type="date" id="tanggal">
+<label>Nama Penerima</label>
+<input type="text" id="penerima">
+<label>Nama Penyerah</label>
+<input type="text" id="penyerah">
+</div>
+
+<div class="card">
+<label>Input No Kantong</label>
+<input type="text" id="manualBarcode" placeholder="Scan / Ketik barcode lalu Enter">
+<button class="btn-orange" onclick="tambahManual()">Tambah No Kantong</button>
+</div>
+
+<div class="card">
+
+<!-- COUNTER SCAN -->
+<div id="scanCounter" 
+     style="text-align:center;
+            font-size:16px;
+            font-weight:700;
+            color:#FF6A00;
+            margin-bottom:8px;">
+Total Scan Berhasil : 0  
+</div>
+
+<div id="reader"></div>
+
+<button id="btnFlash" class="btn-primary" onclick="toggleFlash()">
+🔦 Flash ON
+</button>
+
+<div id="notif"></div>
+
+<div id="lastScan" 
+     style="text-align:center;
+            font-weight:bold;
+            margin-top:8px;
+            color:#0F172A;">
+</div>
+
+</div>
+
+<div class="card">
+<table id="tabelData">
+<tr>
+<th>No</th>
+<th>Kantong</th>
+<th>Hapus</th>
+</tr>
+</table>
+<div class="total-box">
+Total: <span id="total">0</span>
+</div>
+</div>
+
+<div class="card">
+<button class="btn-danger" onclick="hapusSemua()">Hapus Semua</button>
+<button class="btn-success" onclick="printPDF()">Print / Save PDF</button>
+<button class="btn-excel" onclick="exportExcel()">Export Excel</button>
+</div>
+
+<div class="card">
+<h4>Tanda Tangan Penerima</h4>
+<canvas id="signature" width="300" height="150"></canvas>
+<button class="btn-primary" onclick="clearSignature()">Clear Tanda Tangan</button>
+</div>
+
+</div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+var firebaseConfig = {
+  apiKey: "AIzaSyAl13YXiUhCB2lvOcq_fq8qELbqvSeYc6E",
+  authDomain:"db-inbound.firebaseapp.com",
+  databaseURL: "https://db-inbound-default-rtdb.firebaseio.com",
+  projectId:  "db-inbound",
+  storageBucket: "db-inbound.firebasestorage.app",
+  messagingSenderId:"231875242890",
+  appId: "1:231875242890:web:36f3b50d141811cb9ab673"
+};
+
+firebase.initializeApp(firebaseConfig);
+var database = firebase.database();
+</script>
+
+<script>
+
+function getTanggalJamFile(){
+    let now = new Date();
+
+    let tgl = ("0"+now.getDate()).slice(-2) +
+              ("0"+(now.getMonth()+1)).slice(-2) +
+              now.getFullYear();
+
+    let jam = ("0"+now.getHours()).slice(-2) +
+              ("0"+now.getMinutes()).slice(-2) +
+              ("0"+now.getSeconds()).slice(-2);
+
+    return tgl + "_" + jam;
+}
+
+// ===== TAMBAHAN UNTUK TAMPILKAN DATA TERAKHIR (SCAN & MANUAL) =====
+(function(){
+
+    // Simpan fungsi asli
+    const originalProses = prosesBarcode;
+
+    // Override tanpa mengubah isi lama
+    prosesBarcode = function(barcode){
+
+        // Panggil fungsi lama dulu
+        originalProses(barcode);
+
+        // Jika berhasil masuk ke array, tampilkan sebagai data terakhir
+        if(scannedBarcodes.includes(barcode)){
+            document.getElementById("lastScan").innerHTML =
+                "✅ Data Terakhir : <span style='color:#FF6A00'>" + barcode + "</span>";
+        }
+
+    };
+
+})();
+
+function updateScanCounter(){
+    document.getElementById("scanCounter").innerText =
+        "Total Scan Berhasil : " + scannedBarcodes.length; 
+}
+
+let scannedBarcodes=[];
+document.getElementById("tanggal").value=
+new Date().toISOString().split("T")[0];
+
+function beep(url){ new Audio(url).play(); }
+
+function showNotif(text,type){
+let n=document.getElementById("notif");
+n.innerText=text;
+n.className=type;
+setTimeout(()=>{n.innerText="";},2000);
+}
+
+function prosesBarcode(barcode){
+
+if(scannedBarcodes.includes(barcode)){
+beep("https://actions.google.com/sounds/v1/alarms/winding_alarm_clock.ogg");
+showNotif("❌ Kantong sudah ada!","error");
+return;
+}
+
+let penerima=document.getElementById("penerima").value;
+let penyerah=document.getElementById("penyerah").value;
+
+if(!penerima||!penyerah){
+alert("Isi nama penerima & penyerah dulu!");
+return;
+}
+
+scannedBarcodes.push(barcode);
+tambahData(barcode);
+updateScanCounter();
+beep("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
+showNotif("✅ Berhasil ditambahkan","success");
+}
+
+function onScanSuccess(decodedText){
+
+    // tampilkan hasil scan terakhir
+    document.getElementById("lastScan").innerText =
+        "Scan Berhasil: " + decodedText;
+
+    prosesBarcode(decodedText);
+
+    // pause sebentar agar tidak double scan
+    matikanFlash();
+    scanner.clear();
+    setTimeout(()=>{
+        scanner.render(onScanSuccess);
+    },1000);
+}
+
+let scanner = new Html5QrcodeScanner("reader",{fps:10,qrbox:250});
+scanner.render(onScanSuccess);
+
+// ===== AUTO FLASH (TORCH) SAAT SCAN DI HP =====
+let currentCameraTrack = null;
+
+// Ambil kamera setelah scanner aktif
+setTimeout(async () => {
+    try {
+        const video = document.querySelector("#reader video");
+        if (video && video.srcObject) {
+            const stream = video.srcObject;
+            const track = stream.getVideoTracks()[0];
+            currentCameraTrack = track;
+
+            const capabilities = track.getCapabilities();
+
+            if (capabilities.torch) {
+                await track.applyConstraints({
+                    advanced: [{ torch: true }]
+                });
+                console.log("Flash ON 🔦");
+            }
+        }
+    } catch (err) {
+        console.log("Flash tidak didukung di perangkat ini");
+    }
+}, 1500);
+
+// Matikan flash saat scanner clear
+function matikanFlash() {
+
+// ===== TOGGLE FLASH MANUAL =====
+let flashStatus = false;
+
+async function toggleFlash() {
+
+    if (!currentCameraTrack) {
+        showNotif("Flash tidak tersedia di perangkat ini","error");
+        return;
+    }
+
+    try {
+        flashStatus = !flashStatus;
+
+        await currentCameraTrack.applyConstraints({
+            advanced: [{ torch: flashStatus }]
+        });
+
+        document.getElementById("btnFlash").innerText =
+            flashStatus ? "🔦 Flash OFF" : "🔦 Flash ON";
+
+    } catch (err) {
+        showNotif("Flash tidak didukung","error");
+    }
+}
+    if (currentCameraTrack) {
+        currentCameraTrack.applyConstraints({
+            advanced: [{ torch: false }]
+        }).catch(()=>{});
+    }
+}
+
+function tambahManual(){
+let input=document.getElementById("manualBarcode");
+let barcode=input.value.trim();
+if(barcode===""){
+showNotif("❌ Data Kantong Kosong!","error");
+return;
+}
+prosesBarcode(barcode);
+input.value="";
+}
+
+document.getElementById("manualBarcode")
+.addEventListener("keypress",function(e){
+if(e.key==="Enter") tambahManual();
+});
+
+function tambahData(barcode){
+let table=document.getElementById("tabelData");
+let row=table.insertRow();
+row.insertCell(0).innerHTML=scannedBarcodes.length;
+row.insertCell(1).innerHTML=barcode;
+row.insertCell(2).innerHTML=
+`<button class="btn-danger" onclick="hapusBaris(this,'${barcode}')">X</button>`;
+document.getElementById("total").innerText=scannedBarcodes.length;
+}
+
+function hapusBaris(btn,barcode){
+btn.parentNode.parentNode.remove();
+scannedBarcodes=scannedBarcodes.filter(b=>b!==barcode);
+updateNomor();
+updateScanCounter();
+}
+
+function updateNomor(){
+let rows=document.querySelectorAll("#tabelData tr");
+for(let i=1;i<rows.length;i++){
+rows[i].cells[0].innerText=i;
+}
+document.getElementById("total").innerText=rows.length-1;
+}
+
+function hapusSemua(){
+updateScanCounter();
+scannedBarcodes=[];
+document.getElementById("tabelData").innerHTML=
+`<tr><th>No</th><th>Kantong</th><th>Hapus</th></tr>`;
+document.getElementById("total").innerText=0;
+}
+
+const canvas=document.getElementById("signature");
+const ctx=canvas.getContext("2d");
+let drawing=false;
+
+canvas.onmousedown=()=>drawing=true;
+canvas.onmouseup=()=>drawing=false;
+canvas.onmousemove=(e)=>{
+if(!drawing) return;
+ctx.lineWidth=2;
+ctx.lineCap="round";
+ctx.strokeStyle="black";
+ctx.lineTo(e.offsetX,e.offsetY);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(e.offsetX,e.offsetY);
+};
+
+function clearSignature(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+}
+
+function generateNomorDokumen(){
+let d=new Date();
+return "STK-SPX-POSIND/"+d.getFullYear()+
+("0"+(d.getMonth()+1)).slice(-2)+
+("0"+d.getDate()).slice(-2)+
+"/"+Math.floor(Math.random()*1000);
+}
+
+/* PRINT PDF SUPER PADAT PREMIUM - FONT PALING BESAR TANPA TAMBAH HALAMAN */
+function printPDF(){
+
+if(scannedBarcodes.length===0){
+alert("BELUM ADA DATA KANTONG KIMBEK !!!!!");
+return;
+}
+
+let tanggal=document.getElementById("tanggal").value;
+let penerima=document.getElementById("penerima").value;
+let penyerah=document.getElementById("penyerah").value;
+let nomor=generateNomorDokumen(); 
+let signatureImage=canvas.toDataURL("image/png");
+
+// === DATA QR DETAIL ===
+let qrData = `
+SERAH TERIMA KONTONG RETUR SPX ➜ POSIND
+
+Nomor Dokumen : ${nomor}
+Tanggal        : ${tanggal}
+Nama Penerima  : ${penerima}
+Nama Penyerah  : ${penyerah}
+Total Kantong  : ${scannedBarcodes.length} Yang Di Serahkan Ke POSIND
+`;
+
+// Generate QR dari data lengkap
+QRCode.toDataURL(qrData,function(err,url){
+
+let win=window.open("","","width=900,height=1200");
+
+win.document.write(`
+<html>
+<head>
+<title>Serah Terima Kantong</title>
+
+<style>
+@page { size:A4 portrait; margin:0; }
+
+body{
+font-family:Arial;
+margin:0;
+}
+
+.page{
+page-break-after:always;
+}
+
+.judul{
+text-align:center;
+font-size:19px;
+font-weight:bold;
+margin-top:4px;
+margin-bottom:4px;
+}
+
+.info{
+margin-top:4px;
+font-size:13px;
+line-height:1.4;
+}
+
+.flex-table{
+display:flex;
+gap:8px;
+margin-top:6px;
+}
+
+table{
+width:50%;
+border-collapse:collapse;
+font-size:13px;
+}
+
+th{
+background:#000;
+color:#fff;
+font-size:14px;
+}
+
+th, td{
+border:1px solid black;
+padding:3px;
+text-align:center;
+}
+
+.footer{
+margin-top:12px;
+display:flex;
+justify-content:space-between;
+align-items:flex-end;
+}
+
+.box-ttd{
+width:30%;
+text-align:center;
+font-size:13px;
+}
+</style>
+</head>
+<body>
+`);
+
+let perColumn = 35;
+let perPage = 70;
+let totalPages = Math.ceil(scannedBarcodes.length / perPage);
+
+for(let p=0; p<totalPages; p++){
+
+let start = p * perPage;
+let pageData = scannedBarcodes.slice(start, start + perPage);
+
+let leftData = pageData.slice(0, perColumn);
+let rightData = pageData.slice(perColumn, perPage);
+
+let leftTable = `
+<table>
+<tr><th style="width:20%">No</th><th style="width:80%">KANTONG</th></tr>
+`;
+
+leftData.forEach((barcode,index)=>{
+leftTable += `
+<tr>
+<td>${start + index + 1}</td>
+<td>${barcode}</td>
+</tr>`;
+});
+
+for(let i=leftData.length;i<perColumn;i++){
+leftTable += `<tr><td>&nbsp;</td><td></td></tr>`;
+}
+
+leftTable += `</table>`;
+
+let rightTable = `
+<table>
+<tr><th style="width:20%">No</th><th style="width:80%">KANTONG</th></tr>
+`;
+
+rightData.forEach((barcode,index)=>{
+rightTable += `
+<tr>
+<td>${start + perColumn + index + 1}</td>
+<td>${barcode}</td>
+</tr>`;
+});
+
+for(let i=rightData.length;i<perColumn;i++){
+rightTable += `<tr><td>&nbsp;</td><td></td></tr>`;
+}
+
+rightTable += `</table>`;
+
+win.document.write(`
+<div class="page">
+<br>
+<div class="judul">
+SERAH TERIMA KONTONG RETUR SPX ➜ POSIND
+</div>
+<br>
+<div class="info">
+<div><strong>Nomor Dokumen :</strong> ${nomor}</div>
+<div><strong>Tanggal :</strong> ${tanggal}</div>
+<div><strong>Nama Penerima :</strong> ${penerima}</div>
+<div><strong>Nama Penyerah :</strong> ${penyerah}</div>
+</div>
+
+<div class="flex-table">
+${leftTable}
+${rightTable}
+</div>
+
+${p === totalPages-1 ? `
+<div class="footer">
+
+<div style="margin-top:5px;">
+<strong>TOTAL :<br></strong> 
+<span style="font-size:20px;font-weight:900;">
+${scannedBarcodes.length} KANTONG
+</span> 
+<br>
+<span style="font-weight:800;">
+DI SERAHKAN KE POSIND
+
+</span>
+</div>
+
+<div class="box-ttd">
+Penerima<br><br>
+<img src="${signatureImage}" width="110"><br>
+(${penerima})
+</div>
+
+<div class="box-ttd">
+Penyerah<br><br><br><br>
+_________________________<br>
+(${penyerah})
+</div>
+
+<div class="box-ttd">
+QR<br>
+<img src="${url}" width="95">
+</div>
+
+</div>
+` : ``}
+
+</div>
+`);
+}
+
+win.document.write(`</body></html>`);
+win.document.close();
+let namaFile = "STK_SPX KE POSIND_" + getTanggalJamFile() + ".pdf";
+win.document.title = namaFile;
+win.print();
+
+});
+}
+
+function exportExcel(){
+
+if(scannedBarcodes.length===0){
+alert("BELUM ADA DATA KANTONG KIMBEK !!!!!!!");
+return;
+}
+
+let tanggal=document.getElementById("tanggal").value;
+let penerima=document.getElementById("penerima").value;
+let penyerah=document.getElementById("penyerah").value;
+let nomor=generateNomorDokumen();
+
+let wb = XLSX.utils.book_new();
+let ws = {};
+
+let row = 1;
+
+// Helper isi cell
+function setCell(r,c,value,bold=false){
+let cell = { v:value, t:"s" };
+if(bold){
+cell.s = { font:{ bold:true } };
+}
+ws[XLSX.utils.encode_cell({r:r-1,c:c-1})] = cell;
+}
+
+// ===== KOP / JUDUL =====
+setCell(row,1,"SERAH TERIMA KONTONG RETUR SPX ➜ POSIND",true);
+row+=2;
+
+// ===== INFO DOKUMEN =====
+setCell(row,1,"Nomor Dokumen"); setCell(row,2,": "+nomor); row++;
+setCell(row,1,"Tanggal"); setCell(row,2,": "+tanggal); row++;
+setCell(row,1,"Nama Penerima"); setCell(row,2,": "+penerima); row++;
+setCell(row,1,"Nama Penyerah"); setCell(row,2,": "+penyerah); row++;
+setCell(row,1,"Total Kantong"); setCell(row,2,": "+scannedBarcodes.length+" ( Yang Di Serahkan Ke POSIND )");
+
+row+=2;
+
+// ===== HEADER 2 KOLOM =====
+setCell(row,1,"No",true);
+setCell(row,2,"KANTONG",true);
+setCell(row,4,"No",true);
+setCell(row,5,"KANTONG",true);
+
+row++;
+
+// ===== DATA 2 KOLOM SAMA SEPERTI PDF =====
+let perColumn = 70;
+let leftData = scannedBarcodes.slice(0,perColumn);
+let rightData = scannedBarcodes.slice(perColumn);
+
+for(let i=0;i<perColumn;i++){
+
+// KOLOM KIRI
+if(leftData[i]){
+setCell(row,1,String(i+1));
+setCell(row,2,leftData[i]);
+}else{
+setCell(row,1,"");
+setCell(row,2,"");
+}
+
+// KOLOM KANAN
+if(rightData[i]){
+setCell(row,4,String(perColumn+i+1));
+setCell(row,5,rightData[i]);
+}else{
+setCell(row,4,"");
+setCell(row,5,"");
+}
+
+row++;
+}
+
+row+=2;
+
+// ===== TANDA TANGAN =====
+setCell(row,1,"Penerima",true);
+setCell(row,4,"Penyerah",true);
+row+=4;
+
+setCell(row,1,"("+penerima+")");
+setCell(row,4,"("+penyerah+")");
+
+// ===== RANGE =====
+ws["!ref"] = "A1:F"+row;
+
+// ===== LEBAR KOLOM =====
+ws["!cols"] = [
+{wch:6},
+{wch:35},
+{wch:5},
+{wch:6},
+{wch:35},
+{wch:5}
+];
+
+// Tambah sheet
+XLSX.utils.book_append_sheet(wb, ws, "Serah Terima");
+
+// Save
+let namaFile = "STK_SPX KE POSIND_" + getTanggalJamFile() + ".xlsx";
+XLSX.writeFile(wb, namaFile);
+
+}
+
+/* ================================
+   AUTO SAVE & LOAD (ANTI HILANG)
+================================= */
+
+// ===== SIMPAN KE LOCAL STORAGE =====
+function simpanLocal(){
+
+    let data = {
+        tanggal: document.getElementById("tanggal").value,
+        penerima: document.getElementById("penerima").value,
+        penyerah: document.getElementById("penyerah").value,
+        barcodes: scannedBarcodes
+    };
+
+    database.ref("data_stk/global").set(data);
+}
+
+// ===== LOAD SAAT HALAMAN DIBUKA =====
+window.addEventListener("load", function(){
+
+    database.ref("data_stk/global").on("value", function(snapshot){
+
+        let data = snapshot.val();
+        if(!data) return;
+
+        scannedBarcodes = data.barcodes || [];
+
+        document.getElementById("tanggal").value = data.tanggal || "";
+        document.getElementById("penerima").value = data.penerima || "";
+        document.getElementById("penyerah").value = data.penyerah || "";
+
+        let table = document.getElementById("tabelData");
+        table.innerHTML = `
+        <tr>
+        <th>No</th>
+        <th>Kantong</th>
+        <th>Hapus</th>
+        </tr>`;
+
+        scannedBarcodes.forEach((barcode,index)=>{
+            let row = table.insertRow();
+            row.insertCell(0).innerHTML = index + 1;
+            row.insertCell(1).innerHTML = barcode;
+            row.insertCell(2).innerHTML =
+            `<button class="btn-danger" onclick="hapusBaris(this,'${barcode}')">X</button>`;
+        });
+
+        document.getElementById("total").innerText = scannedBarcodes.length;
+        updateScanCounter();
+
+    });
+
+});
+
+// ===== OTOMATIS SIMPAN SETIAP ADA PERUBAHAN =====
+const originalTambahData = tambahData;
+tambahData = function(barcode){
+    originalTambahData(barcode);
+    simpanLocal();
+}
+
+const originalHapusBaris = hapusBaris;
+hapusBaris = function(btn,barcode){
+    originalHapusBaris(btn,barcode);
+    simpanLocal();
+}
+
+const originalHapusSemua = hapusSemua;
+hapusSemua = function(){
+    if(confirm("Oiiii KIMBEK Yakin Mau Hapus Semua Data Ini?")){
+        originalHapusSemua();
+        localStorage.removeItem("stk_barcodes");
+        simpanLocal();
+    }
+}
+
+// Simpan juga saat isi nama berubah
+document.getElementById("penerima").addEventListener("input", simpanLocal);
+document.getElementById("penyerah").addEventListener("input", simpanLocal);
+document.getElementById("tanggal").addEventListener("change", simpanLocal);
+
+</script>
+</body>
+</html>
