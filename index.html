@@ -22,7 +22,8 @@
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
-background:var(--bg);
+background:#f4f6fb; /* warna terang */
+color:#1f2937; /* teks gelap */
 }
 .header{
 background:linear-gradient(135deg,var(--navy),var(--navy2));
@@ -48,20 +49,22 @@ max-width:900px;
 margin:auto;
 }
 .card{
-background:white;
+background:#ffffff;
 padding:15px;
-border-radius:16px;
-box-shadow:0 5px 15px rgba(0,0,0,0.08);
+border-radius:12px;
+border:1px solid #e5e7eb;
 margin-bottom:15px;
+box-shadow:0 4px 10px rgba(0,0,0,0.05);
 }
 label{font-weight:600;font-size:13px;}
 input{
 width:100%;
 padding:12px;
-margin-top:5px;
-margin-bottom:12px;
-border-radius:12px;
-border:1px solid #ddd;
+margin:6px 0 12px;
+border-radius:8px;
+border:1px solid #d1d5db;
+background:#ffffff;
+color:#111827;
 }
 button{
 width:100%;
@@ -133,23 +136,7 @@ background: radial-gradient(circle at 20% 30%, #1E293B, #0F172A 40%, #000 100%);
 overflow-x:hidden;
 }
 
-/* Moving Neon Grid Effect */
-body::before{
-content:"";
-position:fixed;
-inset:0;
-background:
-linear-gradient(rgba(255,106,0,0.15) 1px, transparent 1px),
-linear-gradient(90deg, rgba(255,106,0,0.15) 1px, transparent 1px);
-background-size:40px 40px;
-animation:gridMove 8s linear infinite;
-pointer-events:none;
-}
 
-@keyframes gridMove{
-0%{transform:translateY(0);}
-100%{transform:translateY(40px);}
-}
 
 /* HEADER CYBER GLOW */
 .header{
@@ -224,11 +211,9 @@ box-shadow:
 
 /* SCANNER CYBER FRAME */
 #reader{
-border-radius:20px;
-box-shadow:
-0 0 15px #FF6A00,
-0 0 30px rgba(255,106,0,0.7);
-animation:scannerPulse 2s infinite alternate;
+border-radius:12px;
+border:2px solid var(--orange);
+background:white;
 }
 
 @keyframes scannerPulse{
@@ -246,101 +231,28 @@ td{
 color:#fff;
 }
 
-/* ===================================
-   ⚡ ULTRA NEON BUTTON SYSTEM
-=================================== */
-
 button{
-position:relative;
-overflow:hidden;
-background:#0F172A;
-border:1px solid #FF6A00;
-color:#fff;
-letter-spacing:1px;
-transition:0.3s;
-}
-
-/* Neon Animated Border */
-button::before{
-content:"";
-position:absolute;
-inset:-2px;
-background:linear-gradient(45deg,#FF6A00,#ff9900,#FF6A00,#ff4500);
-background-size:400%;
-z-index:-1;
-filter:blur(6px);
-animation:neonFlow 6s linear infinite;
-border-radius:14px;
-}
-
-@keyframes neonFlow{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
-}
-
-/* Hover Explosion Glow */
-button:hover{
-transform:translateY(-4px) scale(1.05);
-box-shadow:
-0 0 15px #FF6A00,
-0 0 40px #FF6A00,
-0 0 80px rgba(255,106,0,0.9);
-}
-
-/* Click Shock */
-button:active{
-transform:scale(0.9);
-box-shadow:0 0 5px #FF6A00;
-}
-
-/* BUTTON COLOR SPECIAL */
-.btn-orange{background:#FF6A00;}
-.btn-success{background:#16a34a;}
-.btn-danger{background:#dc2626;}
-.btn-excel{background:#f59e0b;}
-.btn-primary{background:#0F172A;}
-
-/* COUNTER NEON */
-#scanCounter{
-font-size:18px;
-text-shadow:
-0 0 10px #FF6A00,
-0 0 20px #FF6A00;
-animation:counterBlink 1.5s infinite alternate;
-}
-
-@keyframes counterBlink{
-from{opacity:0.6;}
-to{opacity:1;}
-}
-
-/* LAST SCAN CYBER */
-#lastScan{
-font-size:15px;
-text-shadow:
-0 0 8px #FF6A00,
-0 0 20px #FF6A00;
-}
-
-/* TOTAL GLOW */
-.total-box{
-font-size:18px;
-text-shadow:
-0 0 10px #FF6A00,
-0 0 25px #FF6A00;
-}
-
-/* CUSTOM SCROLLBAR CYBER */
-::-webkit-scrollbar{
-width:10px;
-}
-::-webkit-scrollbar-thumb{
-background:linear-gradient(#FF6A00,#ff4500);
+width:100%;
+padding:14px;
+border:none;
 border-radius:10px;
-box-shadow:0 0 10px #FF6A00;
+font-weight:600;
+margin-top:8px;
+cursor:pointer;
+transition:0.2s;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
 
+button:hover{
+opacity:0.9;
+transform:translateY(-2px);
+box-shadow:0 4px 10px rgba(0,0,0,0.15);
+}
+
+button:active{
+transform:scale(0.98);
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
 
 
 
@@ -434,20 +346,13 @@ td {
 ===================================== */
 
 body{
-    background: url("SPX-INBOUND.png") no-repeat center center !important;
-   background-size: contain !important;
-   background-color:#000814 !important;
-    background-position: center center !important;
-    background-attachment: fixed !important;
-}
-
-/* Overlay gelap agar teks tetap terbaca */
-body::after{
-    content:"";
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.65);
-    z-index:-1;
+margin:0;
+font-family:'Poppins',sans-serif;
+background: url("POS.JPG") no-repeat center center;
+background-size: cover;
+background-position: center;
+background-attachment: fixed;
+min-height:100vh;
 }
 
 /* Optimasi Android agar tidak lag */
@@ -459,7 +364,53 @@ body::after{
     }
 }
 
+/* =====================================
+   🎥 CAMERA PERMISSION BUTTON PREMIUM
+   TANPA UBAH FUNGSI HTML5 QR
+===================================== */
 
+/* Target tombol bawaan html5-qrcode */
+#reader button {
+    width: 100% !important;
+    padding: 16px !important;
+    border-radius: 14px !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+    letter-spacing: 1px !important;
+    cursor: pointer !important;
+    border: none !important;
+    transition: all 0.3s ease !important;
+
+    /* Gradient Elegant */
+    background: linear-gradient(135deg, #FF6A00, #ff9d3f) !important;
+    color: white !important;
+
+    box-shadow:
+        0 4px 15px rgba(255,106,0,0.4),
+        0 0 20px rgba(255,106,0,0.3);
+
+    text-transform: uppercase !important;
+}
+
+/* Hover Effect */
+#reader button:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 6px 20px rgba(255,106,0,0.6),
+        0 0 30px rgba(255,106,0,0.5);
+}
+
+/* Click Effect */
+#reader button:active {
+    transform: scale(0.97);
+    box-shadow:
+        0 3px 10px rgba(255,106,0,0.4);
+}
+
+/* Tambah Icon Kamera Otomatis */
+#reader button::before {
+    content: "📷  ";
+}
 
 </style>
 </head>
@@ -1222,71 +1173,11 @@ document.getElementById("penerima").addEventListener("input", simpanLocal);
 document.getElementById("penyerah").addEventListener("input", simpanLocal);
 document.getElementById("tanggal").addEventListener("change", simpanLocal);
 
-/* =====================================
-   🤖 AI CONTROL LOGIC
-===================================== */
 
-function updateAILevel(){
-    let total = parseInt(document.getElementById("scanCounter").innerText) || 0;
-    let counter = document.getElementById("scanCounter");
-    let reader = document.getElementById("reader");
-
-    counter.classList.remove("ai-low","ai-medium","ai-high","ai-ultra");
-    reader.classList.remove("energy-boost");
-
-    if(total >= 1 && total < 20){
-        counter.classList.add("ai-low");
-    }
-    else if(total >= 20 && total < 50){
-        counter.classList.add("ai-medium");
-    }
-    else if(total >= 50 && total < 100){
-        counter.classList.add("ai-high");
-        reader.classList.add("energy-boost");
-    }
-    else if(total >= 100){
-        counter.classList.add("ai-ultra");
-        reader.classList.add("energy-boost");
-    }
-}
-
-/* MONITOR PERUBAHAN COUNTER OTOMATIS */
-const observer = new MutationObserver(updateAILevel);
-
-observer.observe(document.getElementById("scanCounter"),{
-childList:true,
-subtree:true
-});
 
 /* INIT */
 updateAILevel();
 
-/* ==========================================
-   👁💥 OMEGA SCAN REACTION SYSTEM
-========================================== */
-
-function cyberShockwave(){
-
-    // Shockwave
-    let wave = document.createElement("div");
-    wave.className = "cyber-shockwave";
-    document.body.appendChild(wave);
-
-    setTimeout(()=> wave.remove(),1000);
-
-    // Screen Pulse
-    document.body.classList.add("screen-pulse");
-    setTimeout(()=> document.body.classList.remove("screen-pulse"),400);
-
-    // Counter Explosion
-    let counter = document.getElementById("scanCounter");
-    counter.classList.add("counter-explode");
-    setTimeout(()=> counter.classList.remove("counter-explode"),500);
-
-    // Aura Shake
-    document.body.classList.add("energy-shake");
-    setTimeout(()=> document.body.classList.remove("energy-shake"),300);
-}
 
 /* HOOK KE SCAN BERHASIL */
 const originalProsesBarcodeOmega = prosesBarcode;
