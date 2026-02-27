@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SERAH TERIMA KANTONG SPX - POSIND</title>
+<title>Serah Terima Kontong Retur SPX - POSIND</title>
 
 <script src="https://unpkg.com/html5-qrcode"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
@@ -136,6 +136,8 @@ background: radial-gradient(circle at 20% 30%, #1E293B, #0F172A 40%, #000 100%);
 overflow-x:hidden;
 }
 
+
+
 /* HEADER CYBER GLOW */
 .header{
 background:linear-gradient(90deg,#0F172A,#1E293B,#0F172A);
@@ -252,6 +254,8 @@ transform:scale(0.98);
 box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
 
+
+
 /* =====================================
    🚀 CYBER ULTRA TEXT MODE
 ===================================== */
@@ -344,7 +348,7 @@ td {
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
-background: url("POS.jpg") no-repeat center center;
+background: url("POS.JPG") no-repeat center center;
 background-size: cover;
 background-position: center;
 background-attachment: fixed;
@@ -791,13 +795,21 @@ win.document.write(`
 <title>Serah Terima Kantong</title>
 
 <style>
-@page { size:A4 portrait; margin:0; }
+@page { 
+    size:A4 portrait; 
+    margin:0mm;   /* margin printer */
+}
 
 body{
 font-family:Arial;
-margin:0;
+margin:5px;      /* jarak isi ke dalam */
 }
 
+.page{
+padding-left:20px;
+padding-right:20px;
+box-sizing:border-box;
+}
 .page{
 page-break-after:always;
 }
@@ -806,8 +818,8 @@ page-break-after:always;
 text-align:center;
 font-size:19px;
 font-weight:bold;
-margin-top:4px;
-margin-bottom:4px;
+margin-top:2px;
+margin-bottom:6px;
 }
 
 .info{
@@ -911,13 +923,12 @@ win.document.write(`
 <div class="page">
 <br>
 <div style="display:flex; align-items:center; justify-content:space-between;">
-    <img src="${logoKiri}" width="80">
+    <img src="${logoKiri}" width="55">
     <div class="judul">
     SERAH TERIMA KONTONG RETUR SPX ➜ POSIND
     </div>
     <img src="${logoKanan}" width="80">
 </div>
-<br>
 <div class="info">
 <div><strong>Nomor Dokumen :</strong> ${nomor}</div>
 <div><strong>Tanggal :</strong> ${tanggal}</div>
@@ -1192,4 +1203,3 @@ prosesBarcode = function(barcode){
 </script>
 </body>
 </html>
-
