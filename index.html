@@ -31,7 +31,6 @@ padding:15px;
 }
 .header-top{
 display:flex;
-justify-content:space-between;
 align-items:center;
 }
 .header img{
@@ -124,15 +123,807 @@ h4{
     display:none;
 }
 
+/* =========================================
+   🔥 CYBER SHOPEE MODE - ULTRA NEON EDITION
+========================================= */
+
+/* CYBER BACKGROUND ANIMATED */
+body{
+background: radial-gradient(circle at 20% 30%, #1E293B, #0F172A 40%, #000 100%);
+overflow-x:hidden;
+}
+
+/* Moving Neon Grid Effect */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+linear-gradient(rgba(255,106,0,0.15) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,106,0,0.15) 1px, transparent 1px);
+background-size:40px 40px;
+animation:gridMove 8s linear infinite;
+pointer-events:none;
+}
+
+@keyframes gridMove{
+0%{transform:translateY(0);}
+100%{transform:translateY(40px);}
+}
+
+/* HEADER CYBER GLOW */
+.header{
+background:linear-gradient(90deg,#0F172A,#1E293B,#0F172A);
+box-shadow:
+0 0 15px #FF6A00,
+0 0 40px rgba(255,106,0,0.8);
+border-bottom:2px solid #FF6A00;
+position:relative;
+overflow:hidden;
+}
+
+/* Neon Sweep Light */
+.header::after{
+content:"";
+position:absolute;
+top:0;
+left:-100%;
+width:50%;
+height:100%;
+background:linear-gradient(120deg,transparent,rgba(255,106,0,0.5),transparent);
+animation:lightSweep 4s infinite;
+}
+
+@keyframes lightSweep{
+0%{left:-100%;}
+100%{left:150%;}
+}
+
+/* TITLE GLOW */
+.header-title{
+text-shadow:
+0 0 5px #FF6A00,
+0 0 15px #FF6A00,
+0 0 30px #FF6A00;
+letter-spacing:2px;
+}
+
+/* GLASS CYBER CARD */
+.card{
+background:rgba(15,23,42,0.7);
+border:1px solid rgba(255,106,0,0.4);
+backdrop-filter:blur(15px);
+box-shadow:
+0 0 15px rgba(255,106,0,0.3),
+inset 0 0 20px rgba(255,106,0,0.2);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+box-shadow:
+0 0 20px #FF6A00,
+0 0 50px rgba(255,106,0,0.6);
+}
+
+/* CYBER INPUT */
+input{
+background:rgba(0,0,0,0.5);
+color:#fff;
+border:1px solid rgba(255,106,0,0.5);
+transition:0.3s;
+}
+
+input:focus{
+outline:none;
+border:1px solid #FF6A00;
+box-shadow:
+0 0 10px #FF6A00,
+0 0 25px #FF6A00;
+}
+
+/* SCANNER CYBER FRAME */
+#reader{
+border-radius:20px;
+box-shadow:
+0 0 15px #FF6A00,
+0 0 30px rgba(255,106,0,0.7);
+animation:scannerPulse 2s infinite alternate;
+}
+
+@keyframes scannerPulse{
+from{box-shadow:0 0 10px #FF6A00;}
+to{box-shadow:0 0 30px #FF6A00;}
+}
+
+/* CYBER TABLE */
+th{
+background:#FF6A00;
+color:#fff;
+}
+
+td{
+color:#fff;
+}
+
+/* ===================================
+   ⚡ ULTRA NEON BUTTON SYSTEM
+=================================== */
+
+button{
+position:relative;
+overflow:hidden;
+background:#0F172A;
+border:1px solid #FF6A00;
+color:#fff;
+letter-spacing:1px;
+transition:0.3s;
+}
+
+/* Neon Animated Border */
+button::before{
+content:"";
+position:absolute;
+inset:-2px;
+background:linear-gradient(45deg,#FF6A00,#ff9900,#FF6A00,#ff4500);
+background-size:400%;
+z-index:-1;
+filter:blur(6px);
+animation:neonFlow 6s linear infinite;
+border-radius:14px;
+}
+
+@keyframes neonFlow{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* Hover Explosion Glow */
+button:hover{
+transform:translateY(-4px) scale(1.05);
+box-shadow:
+0 0 15px #FF6A00,
+0 0 40px #FF6A00,
+0 0 80px rgba(255,106,0,0.9);
+}
+
+/* Click Shock */
+button:active{
+transform:scale(0.9);
+box-shadow:0 0 5px #FF6A00;
+}
+
+/* BUTTON COLOR SPECIAL */
+.btn-orange{background:#FF6A00;}
+.btn-success{background:#16a34a;}
+.btn-danger{background:#dc2626;}
+.btn-excel{background:#f59e0b;}
+.btn-primary{background:#0F172A;}
+
+/* COUNTER NEON */
+#scanCounter{
+font-size:18px;
+text-shadow:
+0 0 10px #FF6A00,
+0 0 20px #FF6A00;
+animation:counterBlink 1.5s infinite alternate;
+}
+
+@keyframes counterBlink{
+from{opacity:0.6;}
+to{opacity:1;}
+}
+
+/* LAST SCAN CYBER */
+#lastScan{
+font-size:15px;
+text-shadow:
+0 0 8px #FF6A00,
+0 0 20px #FF6A00;
+}
+
+/* TOTAL GLOW */
+.total-box{
+font-size:18px;
+text-shadow:
+0 0 10px #FF6A00,
+0 0 25px #FF6A00;
+}
+
+/* CUSTOM SCROLLBAR CYBER */
+::-webkit-scrollbar{
+width:10px;
+}
+::-webkit-scrollbar-thumb{
+background:linear-gradient(#FF6A00,#ff4500);
+border-radius:10px;
+box-shadow:0 0 10px #FF6A00;
+}
+
+/* =========================================
+   🚀 HOLOGRAM MODE – CYBER SHOPEE EXTREME
+========================================= */
+
+/* HOLOGRAM BACKGROUND DEPTH */
+body{
+background: radial-gradient(circle at center, #0F172A 0%, #000814 60%, #000 100%);
+overflow-x:hidden;
+}
+
+/* Moving Digital Lines */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+repeating-linear-gradient(
+0deg,
+rgba(255,106,0,0.08) 0px,
+rgba(255,106,0,0.08) 1px,
+transparent 1px,
+transparent 40px
+);
+animation:scanLines 6s linear infinite;
+pointer-events:none;
+}
+
+@keyframes scanLines{
+0%{transform:translateY(0);}
+100%{transform:translateY(40px);}
+}
+
+/* HOLOGRAM FLICKER EFFECT */
+@keyframes hologramFlicker{
+0%{opacity:1;}
+50%{opacity:0.97;}
+52%{opacity:0.85;}
+55%{opacity:1;}
+100%{opacity:0.98;}
+}
+
+.card, .header{
+animation:hologramFlicker 3s infinite;
+}
+
+/* HEADER HOLOGRAM EDGE */
+.header{
+box-shadow:
+0 0 10px #FF6A00,
+0 0 30px #FF6A00,
+0 0 80px rgba(255,106,0,0.9);
+border-bottom:2px solid #FF6A00;
+position:relative;
+}
+
+/* Animated scanning beam */
+.header::after{
+content:"";
+position:absolute;
+top:0;
+left:-100%;
+width:100%;
+height:3px;
+background:linear-gradient(90deg,transparent,#FF6A00,transparent);
+animation:beamMove 4s infinite;
+}
+
+@keyframes beamMove{
+0%{left:-100%;}
+100%{left:100%;}
+}
+
+/* HOLOGRAM TITLE GLOW */
+.header-title{
+text-shadow:
+0 0 5px #FF6A00,
+0 0 15px #FF6A00,
+0 0 40px #FF6A00,
+0 0 80px rgba(255,106,0,0.8);
+}
+
+/* CARD HOLOGRAM DEPTH */
+.card{
+background:rgba(15,23,42,0.75);
+border:1px solid rgba(255,106,0,0.4);
+box-shadow:
+0 0 20px rgba(255,106,0,0.4),
+inset 0 0 30px rgba(255,106,0,0.2);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-6px) scale(1.02);
+box-shadow:
+0 0 25px #FF6A00,
+0 0 60px rgba(255,106,0,0.8);
+}
+
+/* HOLOGRAM SCANNER FRAME */
+#reader{
+border-radius:25px;
+box-shadow:
+0 0 20px #FF6A00,
+0 0 50px rgba(255,106,0,0.9);
+position:relative;
+overflow:hidden;
+}
+
+/* Scanner laser sweep */
+#reader::after{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:3px;
+background:linear-gradient(90deg,transparent,#FF6A00,transparent);
+animation:laserScan 2.5s infinite;
+}
+
+@keyframes laserScan{
+0%{top:0%;}
+100%{top:100%;}
+}
+
+/* HOLOGRAM BUTTON SYSTEM */
+button{
+position:relative;
+background:#0F172A;
+border:1px solid #FF6A00;
+color:#fff;
+letter-spacing:1px;
+transition:0.3s;
+overflow:hidden;
+}
+
+/* Animated outer aura */
+button::before{
+content:"";
+position:absolute;
+inset:-4px;
+background:linear-gradient(45deg,#FF6A00,#ff9900,#ff4500,#FF6A00);
+background-size:400%;
+filter:blur(8px);
+z-index:-1;
+animation:auraFlow 6s linear infinite;
+border-radius:16px;
+}
+
+@keyframes auraFlow{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+button:hover{
+transform:translateY(-4px) scale(1.06);
+box-shadow:
+0 0 20px #FF6A00,
+0 0 60px rgba(255,106,0,1);
+}
+
+button:active{
+transform:scale(0.92);
+box-shadow:0 0 10px #FF6A00;
+}
+
+/* COUNTER HOLOGRAM */
+#scanCounter{
+font-size:18px;
+text-shadow:
+0 0 10px #FF6A00,
+0 0 25px #FF6A00,
+0 0 50px rgba(255,106,0,0.8);
+animation:counterPulse 1.2s infinite alternate;
+}
+
+@keyframes counterPulse{
+from{opacity:0.7;}
+to{opacity:1;}
+}
+
+/* LAST SCAN DIGITAL GLOW */
+#lastScan{
+text-shadow:
+0 0 10px #FF6A00,
+0 0 30px #FF6A00;
+}
+
+/* TOTAL BOX GLOW */
+.total-box{
+font-size:18px;
+text-shadow:
+0 0 15px #FF6A00,
+0 0 40px #FF6A00;
+}
+
+/* Scrollbar Cyber */
+::-webkit-scrollbar{
+width:10px;
+}
+::-webkit-scrollbar-thumb{
+background:linear-gradient(#FF6A00,#ff4500);
+border-radius:10px;
+box-shadow:0 0 15px #FF6A00;
+}
+
+/* =====================================
+   🤖 AI CONTROL ENERGY SYSTEM
+===================================== */
+
+/* LEVEL WARNA BERDASARKAN TOTAL */
+.ai-low{
+color:#00E5FF;
+text-shadow:
+0 0 10px #00E5FF,
+0 0 30px #00E5FF;
+}
+
+.ai-medium{
+color:#00FF88;
+text-shadow:
+0 0 15px #00FF88,
+0 0 40px #00FF88;
+}
+
+.ai-high{
+color:#FFD700;
+text-shadow:
+0 0 20px #FFD700,
+0 0 60px #FFD700;
+}
+
+.ai-ultra{
+color:#FF3B3B;
+text-shadow:
+0 0 25px #FF3B3B,
+0 0 80px #FF3B3B,
+0 0 120px #FF0000;
+animation:ultraPulse 0.8s infinite alternate;
+}
+
+@keyframes ultraPulse{
+from{transform:scale(1);}
+to{transform:scale(1.08);}
+}
+
+/* Scanner boost energy */
+.energy-boost{
+box-shadow:
+0 0 40px #FF6A00,
+0 0 80px rgba(255,106,0,1) !important;
+}
+
+/* =====================================
+   🚀 CYBER ULTRA TEXT MODE
+===================================== */
+
+/* FONT GLOBAL LEBIH TEBAL & FUTURISTIK */
+body,
+label,
+td,
+th,
+h4,
+#lastScan,
+#notif,
+.total-box,
+.card,
+input,
+button {
+    font-weight: 700 !important;
+    letter-spacing: 0.8px;
+}
+
+/* ===== GRADIENT TITANIUM TEXT ===== */
+.cyber-text,
+label,
+.total-box,
+#lastScan,
+h4 {
+    background: linear-gradient(90deg,#00F5FF,#00FF88,#FFD700,#FF6A00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow:
+        0 0 10px rgba(255,106,0,0.8),
+        0 0 20px rgba(0,255,200,0.6),
+        0 0 40px rgba(255,215,0,0.6);
+}
+
+/* ===== INPUT TEXT PUTIH TAJAM ===== */
+input {
+    color:#FFFFFF !important;
+    font-weight:700 !important;
+    text-shadow:0 0 8px #00F5FF;
+}
+
+/* ===== TABEL LEBIH KONTRAS ===== */
+td {
+    color:#FFFFFF !important;
+    font-weight:600 !important;
+    text-shadow:0 0 6px rgba(0,255,255,0.6);
+}
+
+/* ===== NOTIF SUPER GLOW ===== */
+#notif.success {
+    color:#00FF88 !important;
+    text-shadow:
+        0 0 10px #00FF88,
+        0 0 30px #00FF88;
+}
+
+#notif.error {
+    color:#FF3B3B !important;
+    text-shadow:
+        0 0 10px #FF3B3B,
+        0 0 40px #FF0000;
+}
+
+/* ===== SCAN TERAKHIR ULTRA GLOW ===== */
+#lastScan {
+    font-size:16px;
+    font-weight:800;
+    text-shadow:
+        0 0 15px #00F5FF,
+        0 0 30px #FF6A00,
+        0 0 60px rgba(255,215,0,0.8);
+}
+
+/* ===== HEADER TITLE SUPER TITANIUM ===== */
+.header-title {
+    background: linear-gradient(90deg,#FFD700,#FF6A00,#00F5FF,#00FF88);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow:
+        0 0 20px rgba(255,106,0,0.9),
+        0 0 60px rgba(255,215,0,0.9);
+}
+
+/* =====================================
+   🌌 RESPONSIVE BACKGROUND LOGO MODE
+   TANPA MENGUBAH KODE LAIN
+===================================== */
+
+body{
+    background: url("SPX-INBOUND.png") no-repeat center center !important;
+   background-size: contain !important;
+   background-color:#000814 !important;
+    background-position: center center !important;
+    background-attachment: fixed !important;
+}
+
+/* Overlay gelap agar teks tetap terbaca */
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.65);
+    z-index:-1;
+}
+
+/* Optimasi Android agar tidak lag */
+@media (max-width:768px){
+    body{
+        background-attachment: scroll !important;
+        background-size: contain !important;
+        background-color:#000814 !important;
+    }
+}
+
+/* =====================================================
+   👑🔥 FULL CYBER GOD MODE – BACKGROUND ENGINE
+   TANPA MERUBAH KODE LAIN
+===================================================== */
+
+/* BASE BACKGROUND LOGO */
+body{
+    background: url("SPX-INBOUND.png") no-repeat center center !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+    animation: godZoom 30s ease-in-out infinite alternate;
+    overflow-x:hidden;
+}
+
+/* CINEMATIC ZOOM */
+@keyframes godZoom{
+    0%{ background-size:100%; }
+    100%{ background-size:120%; }
+}
+
+/* DARK DEPTH LAYER */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+        radial-gradient(circle at center,
+        rgba(0,0,0,0.2) 0%,
+        rgba(0,0,0,0.65) 60%,
+        rgba(0,0,0,0.9) 100%);
+    z-index:-3;
+}
+
+/* AURA ENERGY CORE */
+body::after{
+    content:"";
+    position:fixed;
+    inset:-30%;
+    background:
+        radial-gradient(circle at 30% 40%, rgba(0,245,255,0.35), transparent 40%),
+        radial-gradient(circle at 70% 60%, rgba(255,106,0,0.35), transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(255,215,0,0.2), transparent 50%);
+    filter: blur(100px);
+    animation: auraSpin 25s linear infinite alternate;
+    z-index:-2;
+}
+
+@keyframes auraSpin{
+    0%{ transform:rotate(0deg) scale(1); }
+    100%{ transform:rotate(10deg) scale(1.3); }
+}
+
+/* =====================================
+   ⚡ LIGHTNING ENERGY FLASH
+===================================== */
+
+@keyframes lightningFlash{
+    0%{opacity:0;}
+    2%{opacity:1;}
+    4%{opacity:0;}
+    100%{opacity:0;}
+}
+
+.cyber-lightning{
+    position:fixed;
+    inset:0;
+    background:
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4), transparent 60%);
+    animation: lightningFlash 6s infinite;
+    pointer-events:none;
+    z-index:-1;
+}
+
+/* =====================================
+   💫 PARTICLE STAR FIELD
+===================================== */
+
+body{
+    position:relative;
+}
+
+body::marker{display:none;}
+
+body::selection{background:#FF6A00;}
+
+body::before,
+body::after{
+    pointer-events:none;
+}
+
+.cyber-particles{
+    position:fixed;
+    inset:0;
+    background-image:
+        radial-gradient(2px 2px at 20% 30%, #00F5FF, transparent),
+        radial-gradient(2px 2px at 70% 60%, #FF6A00, transparent),
+        radial-gradient(1.5px 1.5px at 40% 80%, #FFD700, transparent),
+        radial-gradient(2px 2px at 90% 20%, #00FF88, transparent);
+    background-repeat:repeat;
+    background-size:200px 200px;
+    animation: particleMove 60s linear infinite;
+    opacity:0.4;
+    z-index:-1;
+}
+
+@keyframes particleMove{
+    0%{background-position:0 0;}
+    100%{background-position:1000px 1000px;}
+}
+
+/* =====================================
+   🌀 DEPTH PARALLAX EFFECT
+===================================== */
+
+.container{
+    backdrop-filter: blur(8px);
+}
+
+/* =====================================
+   📱 MOBILE OPTIMIZATION
+===================================== */
+
+@media (max-width:768px){
+    body{
+        background-attachment: scroll !important;
+        animation: godZoomMobile 35s ease-in-out infinite alternate;
+    }
+
+    @keyframes godZoomMobile{
+        0%{ background-size:120%; }
+        100%{ background-size:140%; }
+    }
+}
+
+/* ======================================================
+   👁💥 CYBER GOD OMEGA EFFECT ENGINE
+====================================================== */
+
+/* SHOCKWAVE EFFECT */
+.cyber-shockwave{
+    position:fixed;
+    top:50%;
+    left:50%;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:rgba(255,106,0,0.7);
+    transform:translate(-50%,-50%);
+    animation:shockExpand 1s ease-out forwards;
+    pointer-events:none;
+    z-index:9999;
+}
+
+@keyframes shockExpand{
+    0%{
+        width:20px;
+        height:20px;
+        opacity:0.9;
+        box-shadow:0 0 40px #FF6A00;
+    }
+    100%{
+        width:1200px;
+        height:1200px;
+        opacity:0;
+        box-shadow:0 0 200px #FF6A00;
+    }
+}
+
+/* SCREEN PULSE */
+.screen-pulse{
+    animation:screenFlash 0.4s ease;
+}
+
+@keyframes screenFlash{
+    0%{ filter:brightness(1); }
+    50%{ filter:brightness(1.4); }
+    100%{ filter:brightness(1); }
+}
+
+/* COUNTER EXPLOSION */
+.counter-explode{
+    animation:counterBoom 0.5s ease;
+}
+
+@keyframes counterBoom{
+    0%{ transform:scale(1); }
+    50%{ transform:scale(1.4); text-shadow:0 0 40px #FFD700; }
+    100%{ transform:scale(1); }
+}
+
+/* ENERGY SHAKE */
+.energy-shake{
+    animation:shakeEnergy 0.3s ease;
+}
+
+@keyframes shakeEnergy{
+    0%{ transform:translateX(0); }
+    25%{ transform:translateX(-3px); }
+    50%{ transform:translateX(3px); }
+    75%{ transform:translateX(-3px); }
+    100%{ transform:translateX(0); }
+}
+
 </style>
 </head>
-
 <body>
 
+<div class="cyber-lightning"></div>
+<div class="cyber-particles"></div>
+
 <div class="header">
-<div class="header-top">
-</div>
 <div class="header-title">
+<img src="SPX-INBOUND.png" style="height:75px; margin-right:17px;">
+    <div style="flex:1;"></div>
 SERAH TERIMA KONTONG RETUR<br>
 SPX ➜ POSIND
 </div>
@@ -160,8 +951,8 @@ SPX ➜ POSIND
 <!-- COUNTER SCAN -->
 <div id="scanCounter" 
      style="text-align:center;
-            font-size:16px;
-            font-weight:700;
+            font-size:35px;
+            font-weight:900;
             color:#FF6A00;
             margin-bottom:8px;">
 Total Scan Berhasil : 0  
@@ -496,6 +1287,9 @@ QRCode.toDataURL(qrData,function(err,url){
 
 let win=window.open("","","width=900,height=1200");
 
+let logoKiri = "Logo PosIND.png";
+let logoKanan = "SPX.png";
+
 win.document.write(`
 <html>
 <head>
@@ -621,8 +1415,12 @@ rightTable += `</table>`;
 win.document.write(`
 <div class="page">
 <br>
-<div class="judul">
-SERAH TERIMA KONTONG RETUR SPX ➜ POSIND
+<div style="display:flex; align-items:center; justify-content:space-between;">
+    <img src="${logoKiri}" width="80">
+    <div class="judul">
+    SERAH TERIMA KONTONG RETUR SPX ➜ POSIND
+    </div>
+    <img src="${logoKanan}" width="80">
 </div>
 <br>
 <div class="info">
@@ -701,6 +1499,10 @@ let wb = XLSX.utils.book_new();
 let ws = {};
 
 let row = 1;
+
+setCell(row,1,"[Logo PosIND]");
+setCell(row,5,"[SPX]");
+row+=2;
 
 // Helper isi cell
 function setCell(r,c,value,bold=false){
@@ -789,7 +1591,6 @@ XLSX.utils.book_append_sheet(wb, ws, "Serah Terima");
 // Save
 let namaFile = "STK_SPX KE POSIND_" + getTanggalJamFile() + ".xlsx";
 XLSX.writeFile(wb, namaFile);
-
 }
 
 /* ================================
@@ -872,6 +1673,86 @@ hapusSemua = function(){
 document.getElementById("penerima").addEventListener("input", simpanLocal);
 document.getElementById("penyerah").addEventListener("input", simpanLocal);
 document.getElementById("tanggal").addEventListener("change", simpanLocal);
+
+/* =====================================
+   🤖 AI CONTROL LOGIC
+===================================== */
+
+function updateAILevel(){
+    let total = parseInt(document.getElementById("scanCounter").innerText) || 0;
+    let counter = document.getElementById("scanCounter");
+    let reader = document.getElementById("reader");
+
+    counter.classList.remove("ai-low","ai-medium","ai-high","ai-ultra");
+    reader.classList.remove("energy-boost");
+
+    if(total >= 1 && total < 20){
+        counter.classList.add("ai-low");
+    }
+    else if(total >= 20 && total < 50){
+        counter.classList.add("ai-medium");
+    }
+    else if(total >= 50 && total < 100){
+        counter.classList.add("ai-high");
+        reader.classList.add("energy-boost");
+    }
+    else if(total >= 100){
+        counter.classList.add("ai-ultra");
+        reader.classList.add("energy-boost");
+    }
+}
+
+/* MONITOR PERUBAHAN COUNTER OTOMATIS */
+const observer = new MutationObserver(updateAILevel);
+
+observer.observe(document.getElementById("scanCounter"),{
+childList:true,
+subtree:true
+});
+
+/* INIT */
+updateAILevel();
+
+/* ==========================================
+   👁💥 OMEGA SCAN REACTION SYSTEM
+========================================== */
+
+function cyberShockwave(){
+
+    // Shockwave
+    let wave = document.createElement("div");
+    wave.className = "cyber-shockwave";
+    document.body.appendChild(wave);
+
+    setTimeout(()=> wave.remove(),1000);
+
+    // Screen Pulse
+    document.body.classList.add("screen-pulse");
+    setTimeout(()=> document.body.classList.remove("screen-pulse"),400);
+
+    // Counter Explosion
+    let counter = document.getElementById("scanCounter");
+    counter.classList.add("counter-explode");
+    setTimeout(()=> counter.classList.remove("counter-explode"),500);
+
+    // Aura Shake
+    document.body.classList.add("energy-shake");
+    setTimeout(()=> document.body.classList.remove("energy-shake"),300);
+}
+
+/* HOOK KE SCAN BERHASIL */
+const originalProsesBarcodeOmega = prosesBarcode;
+
+prosesBarcode = function(barcode){
+
+    let before = scannedBarcodes.length;
+
+    originalProsesBarcodeOmega(barcode);
+
+    if(scannedBarcodes.length > before){
+        cyberShockwave();
+    }
+};
 
 </script>
 </body>
