@@ -412,6 +412,59 @@ min-height:100vh;
     content: "📷  ";
 }
 
+/* 🔥 TOMBOL KELUAR CYBER NEON */
+#btnKeluar {
+    position: absolute;
+    top: 18px;
+    right: 25px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg,#FF6A00,#FFD700);
+    color: #fff;
+    font-weight: 900;
+    font-size: 14px;
+    border-radius: 12px;
+    text-decoration: none;
+    text-transform: uppercase;
+    box-shadow:
+        0 0 10px #FF6A00,
+        0 0 20px #FFD700,
+        0 0 30px rgba(255,215,0,0.6);
+    z-index: 999;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Neon Sweep Light Animation */
+#btnKeluar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+    transform: skewX(-25deg);
+    animation: sweep 2.5s infinite;
+}
+
+@keyframes sweep {
+    0% { left: -100%; }
+    100% { left: 150%; }
+}
+
+/* Hover efek glowing */
+#btnKeluar:hover {
+    box-shadow:
+        0 0 15px #FF6A00,
+        0 0 35px #FFD700,
+        0 0 60px rgba(255,215,0,0.8);
+    transform: translateY(-2px) scale(1.05);
+}
+
+#btnKeluar:active {
+    transform: scale(0.97);
+}
+
 </style>
 </head>
 <body>
@@ -420,10 +473,18 @@ min-height:100vh;
 <div class="cyber-particles"></div>
 
 <div class="header">
+<a href="javascript:void(0)" id="btnKeluar">KELUAR</a>
+
+<script>
+document.getElementById("btnKeluar").addEventListener("click", function(){
+    // Ganti URL berikut dengan web tujuanmu
+    window.location.href = "https://di2tboit81.github.io/POSIND/";
+});
+</script>
 <div class="header-title">
 <img src="SPX-INBOUND.png" style="height:75px; margin-right:17px;">
     <div style="flex:1;"></div>
-SERAH TERIMA KANTONG RETUR<br>
+SERAH TERIMA KONTONG RETUR<br>
 SPX ➜ POSIND
 </div>
 </div>
@@ -772,7 +833,7 @@ let signatureImage=canvas.toDataURL("image/png");
 
 // === DATA QR DETAIL ===
 let qrData = `
-SERAH TERIMA KANTONG RETUR SPX ➜ POSIND
+SERAH TERIMA KONTONG RETUR SPX ➜ POSIND
 
 Nomor Dokumen : ${nomor}
 Tanggal        : ${tanggal}
@@ -925,7 +986,7 @@ win.document.write(`
 <div style="display:flex; align-items:center; justify-content:space-between;">
     <img src="${logoKiri}" width="55">
     <div class="judul">
-    SERAH TERIMA KANTONG RETUR SPX ➜ POSIND
+    SERAH TERIMA KONTONG RETUR SPX ➜ POSIND
     </div>
     <img src="${logoKanan}" width="80">
 </div>
@@ -1203,6 +1264,5 @@ prosesBarcode = function(barcode){
 </script>
 </body>
 </html>
-
 
 
